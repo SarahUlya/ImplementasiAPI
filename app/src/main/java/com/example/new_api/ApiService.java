@@ -9,5 +9,5 @@ public interface ApiService {
     Call<TeamResponse> getTeams(@Query("l") String leagueName);
 
     @GET("search_all_teams.php")
-    Call<TeamResponse> getTeamsBySportAndCountry(@Query("s") String sport);
+    Call<TeamResponse> getTeamsBySportAndCountry(@Query("s") String sport, @Query("c") String country );
 }

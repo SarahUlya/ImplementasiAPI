@@ -1,17 +1,13 @@
 package com.example.new_api;
 
 public class Team {
-    String name, logoUrl;
+    private String strTeam;
+    private String strBadge;
 
-    public Team(String name, String logoUrl){
-        this.name = name;
-        this.logoUrl = logoUrl;
+    public String getStrTeam() {
+        return strTeam;
     }
-
-    public String getName() {
-        return name; }
-
-    public String getLogoUrl() {
-        return logoUrl;
+    public String getStrBadge() {
+        return strBadge;
     }
 }
