@@ -3,11 +3,18 @@ plugins {
 }
 
 android {
+
     namespace = "com.example.new_api"
     compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.new_api"
+
+    namespace = "com.example.implementasiapi"
+    compileSdk = 35
+
+    defaultConfig {
+        applicationId = "com.example.implementasiapi"
         minSdk = 27
         targetSdk = 35
         versionCode = 1
@@ -46,4 +53,5 @@ dependencies {
     implementation(libs.loggingInterceptor)
     implementation(libs.glide)
     implementation(libs.glideCompiler)
+    }
 }
