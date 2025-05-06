@@ -2,33 +2,47 @@ package com.example.new_api;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.example.implementasiapi.R;
 
 public class MainMenu extends AppCompatActivity {
-    Button btnPremier, btnSpanish;
+
+    Button btnPremiere;
+    Button btnSpain;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
-
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_menu);
 
-        btnPremier = findViewById(R.id.btnPremier);
-        btnSpanish = findViewById(R.id.btnSpanish);
+        btnPremiere = (Button) findViewById(R.id.btnPremier);
+        btnSpain = (Button) findViewById(R.id.btnSpanish);
 
-        btnPremier.setOnClickListener(v ->openMainActivity("4328"));
-        btnSpanish.setOnClickListener(v ->openMainActivity("4335"));
+        btnPremiere.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent premiereIntent = new Intent(MainMenu.this, MainActivity.class);
+                startActivity(premiereIntent);
+            }
+        });
+
+        btnSpain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent spainIntent = new Intent(MainMenu.this, SpanishActivity.class);
+                startActivity(spainIntent);
+            }
+        });
+
     }
-
-    private void openMainActivity(String leagueName) {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("LEAGUE_ID", "Spanish La Liga");
-        startActivity(intent);
-    }
-
-
 }
