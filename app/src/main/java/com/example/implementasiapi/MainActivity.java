@@ -1,4 +1,4 @@
-package com.example.new_api;
+package com.example.implementasiapi;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -6,10 +6,11 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.implementasiapi.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +18,11 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
-    RecyclerView recyclerView;
-    TeamAdapter adapter;
-    List<Team> teamList = new ArrayList<>();
-    String leagueName;
+    private RecyclerView recyclerView;
+    private TeamAdapter teamAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,32 +30,28 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        leagueName = getIntent().getStringExtra("LEAGUE_NAME");
-        recyclerView = findViewById(R.id.rvTeam);
+        recyclerView = findViewById(R.id.rvTeams);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        loadTeams(leagueName);
+        Retrofit retrofit = RetrofitClient.getInstance();
+        ApiService apiService = retrofit.create(ApiService.class);
 
-    }
 
-    private void loadTeams(String leagueId) {
-        ApiService apiService = RetrofitClient.getClient().create(ApiService.class);
-        apiService.getTeams(leagueId).enqueue(new Callback<TeamResponse>() {
+        Call<TeamResponse> call = apiService.getAllTeams("4328");
+        call.enqueue(new Callback<TeamResponse>() {
             @Override
             public void onResponse(Call<TeamResponse> call, Response<TeamResponse> response) {
-                if(response.isSuccessful() && response.body() !=null ){
+                if (response.isSuccessful()){
                     List<Team> teams = response.body().getTeams();
-                    adapter = new TeamAdapter(MainActivity.this, teams);
-                    recyclerView.setAdapter(adapter);
-                } else{
-                    Toast.makeText(MainActivity.this, "Failed to get data", Toast.LENGTH_SHORT).show();
+                    teamAdapter = new TeamAdapter(teams);
+                    recyclerView.setAdapter(teamAdapter);
                 }
             }
 
             @Override
             public void onFailure(Call<TeamResponse> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Network error", Toast.LENGTH_SHORT).show();
-                Log.e("RETROFIT_EROR", "On_Failure : ", t);
+                Log.e("MainActivity","API tidak dapat dipanggil" + t.getMessage());
+                Toast.makeText(MainActivity.this, "Gagal ambil data : "+ t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

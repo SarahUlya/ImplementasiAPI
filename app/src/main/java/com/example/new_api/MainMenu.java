@@ -6,6 +6,8 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.implementasiapi.R;
+
 public class MainMenu extends AppCompatActivity {
     Button btnPremier, btnSpanish;
 
